@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- 控制台输出 -->
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p:[%d{yyyy-MM-dd HH:mm:ss}]%l : %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- 单文件滚动输出 -->
+	<appender name="file" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="/logs/log.txt" />
+		<!--日志过滤门槛，记录warn以上级别日志 -->
+		<param name="Threshold" value="WARN" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %m %n" />
+		</layout>
+	</appender>
+
+	<!-- 按日期多文件输出 -->
+	<appender name="dailyFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/ibeans.log" /><!-- 磁盘根存储路径，相当d:\logs\ibeans.log -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{MMdd HH:mm:ss}] %p : %c{3\} - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- 包级日志配置 -->
+	<logger name="cn.ibeans">
+		<level value="debug" />
+	</logger>
+
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+	
+	<!-- 系统级日志配置 -->
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="file" />
+		<appender-ref ref="dailyFile" />
+	</root>
+</log4j:configuration>
